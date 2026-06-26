@@ -26,6 +26,10 @@ def get_db_connection():
 
     return connection
 
+def return_host_email(app):
+    host_mail = app.config['MAIL_USERNAME']
+    return host_mail
+
 
 def configure_app(app):
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -36,16 +40,16 @@ def configure_app(app):
     mail = Mail(app)
 
 
-def send_email(app,email,otp):
+def send_email(app,host_mail,recipient_email,otp):
     email_message = Message(
          "Verify your email",
          sender=app.config['MAIL_USERNAME'],
-         recipients=[email]
+         recipients=[recipient_email]
          )
         
     email_message.body = f"""
     Your verification OTP is {otp}
     """
-    email.send(email_message)
+    host_mail.send(email_message)
 
 

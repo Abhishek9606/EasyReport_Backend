@@ -1,7 +1,7 @@
 from flask import Flask,request,jsonify
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_cors import CORS
-from helper_functions import get_db_connection,generate_otp,configure_app,send_email
+from helper_functions import get_db_connection,generate_otp,configure_app,send_email,return_host_email
 
 app = Flask(__name__)
 
@@ -65,7 +65,8 @@ def signup():
             connection.commit()
             connection.close()
 
-            send_email(app,email,otp)
+            host_mail = return_host_email(app)
+            send_email(app,host_mail,email,otp)
 
             return jsonify({"success":"OTP has been sent successfully"}),200
         
@@ -113,7 +114,7 @@ def signup():
             connection.commit()
             connection.close()
 
-            send_email(app,email,otp)
+            send_email(app,app.config['MAIL_USERNAME'],email,otp)
 
             
         
