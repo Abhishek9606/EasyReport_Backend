@@ -3,6 +3,7 @@ from flask_mail import Mail, Message
 import mysql.connector
 import os
 from dotenv import load_dotenv
+import pymysql
 
 load_dotenv()
 
@@ -10,16 +11,20 @@ def generate_otp():
     return random.randint(100000,999999)
 
 def get_db_connection():
-    connection = mysql.connector.connect(
-        host = "gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com",
-        port = 4000,
-        user = os.environ.get("user"),
-        password = os.environ.get("password"),
-        database = os.environ.get("database"),
-        ssl_ca = r"/etc/secrets/isrgrootx1.pem",
-        ssl_verify_cert = True,
-        ssl_verify_identity = True
+    timeout = 10
+    connection = pymysql.connect(
+        charset="utf8mb4",
+        connect_timeout=timeout,
+        cursorclass=pymysql.cursors.DictCursor,
+        db=os.environ.get("database"),
+        host=os.environ.get("host"),
+        password=os.environ.get("password")
+        read_timeout=timeout,
+        port=13285,
+        user=os.environ.get("user"),
+        write_timeout=timeout,
         )
+
     return connection
 
 
