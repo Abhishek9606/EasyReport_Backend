@@ -18,7 +18,7 @@ def get_db_connection():
         cursorclass=pymysql.cursors.DictCursor,
         db=os.environ.get("database"),
         host=os.environ.get("host"),
-        password=os.environ.get("password")
+        password=os.environ.get("password"),
         read_timeout=timeout,
         port=13285,
         user=os.environ.get("user"),
