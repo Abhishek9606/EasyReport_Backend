@@ -1,7 +1,7 @@
 from flask import Flask,request,jsonify
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_cors import CORS
-from backend.helper_functions import get_db_connection,generate_otp,configure_app,send_email
+from helper_functions import get_db_connection,generate_otp,configure_app,send_email
 
 app = Flask(__name__)
 
