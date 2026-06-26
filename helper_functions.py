@@ -2,19 +2,25 @@ import random
 from flask_mail import Mail, Message
 import mysql.connector
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def generate_otp():
     return random.randint(100000,999999)
 
-
 def get_db_connection():
-    conn = mysql.connector.connect(
-        host = os.environ.get("host"),
-        user =  os.environ.get("user"),
-        password =  os.environ.get("password"),
-        database =  os.environ.get("database")
-    )
-    return conn
+    connection = mysql.connector.connect(
+        host = "gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com",
+        port = 4000,
+        user = os.environ.get("user"),
+        password = os.environ.get("password"),
+        database = os.environ.get("database"),
+        ssl_ca = r"/etc/secrets/isrgrootx1.pem",
+        ssl_verify_cert = True,
+        ssl_verify_identity = True
+        )
+    return connection
 
 
 def configure_app(app):
@@ -36,6 +42,6 @@ def send_email(app,email,otp):
     email_message.body = f"""
     Your verification OTP is {otp}
     """
-    mail.send(email_message)
+    email.send(email_message)
 
 
