@@ -41,7 +41,7 @@ def configure_app(app):
     return configured_mail
 
 
-def send_email(app,Mail,recipient_email,otp):
+def send_email(app,mail,recipient_email,otp):
     email_message = Message(
          "Verify your email",
          sender=app.config['MAIL_USERNAME'],
@@ -51,6 +51,6 @@ def send_email(app,Mail,recipient_email,otp):
     email_message.body = f"""
     Your verification OTP is {otp}
     """
-    Mail.send(email_message)
+    mail.send(email_message)
 
 
