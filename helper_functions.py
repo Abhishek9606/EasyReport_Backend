@@ -37,10 +37,11 @@ def configure_app(app):
     app.config['MAIL_USE_TLS'] = True
     app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
     app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
-    mail = Mail(app)
+    configured_mail = Mail(app)
+    return configured_mail
 
 
-def send_email(app,host_mail,recipient_email,otp):
+def send_email(app,Mail,recipient_email,otp):
     email_message = Message(
          "Verify your email",
          sender=app.config['MAIL_USERNAME'],
@@ -50,6 +51,6 @@ def send_email(app,host_mail,recipient_email,otp):
     email_message.body = f"""
     Your verification OTP is {otp}
     """
-    host_mail.send(email_message)
+    Mail.send(email_message)
 
 

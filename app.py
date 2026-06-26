@@ -6,7 +6,7 @@ from helper_functions import get_db_connection,generate_otp,configure_app,send_e
 app = Flask(__name__)
 
 CORS(app)
-configure_app(app)
+configured_mail = configure_app(app)
 
 
 
@@ -65,8 +65,8 @@ def signup():
             connection.commit()
             connection.close()
 
-            host_mail = return_host_email(app)
-            send_email(app,host_mail,email,otp)
+        
+            send_email(app,configured_mail,email,otp)
 
             return jsonify({"success":"OTP has been sent successfully"}),200
         
