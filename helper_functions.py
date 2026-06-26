@@ -1,6 +1,5 @@
 import random
 from flask_mail import Mail, Message
-import mysql.connector
 import os
 from dotenv import load_dotenv
 import pymysql
